@@ -1,4 +1,4 @@
-﻿#include<iostream>
+#include<iostream>
 #include<iterator>
 #include<string>
 #include<fstream>
@@ -17,22 +17,22 @@ struct Data {
 };
 class Semantic {
 	Sintax sin;
-	stack<Token>CurTok;
 	int Pos = 0;
 	int S =0;
 	Data D;
 	Deque<Token>AllTok;
-	vector<Data>ErrArr;
-	vector<Data>IntArr;
-	vector<Data>RealArr;
-	vector<int>As;
-	deque<string>Post;
+	Deque<Data>ErrArr;
+	Deque<Data>IntArr;
+	Deque<Data>RealArr;
+	Deque<int>As;
+	Deque<string>Post;
 	short f = 0;
 	string ProgID;
 	bool ErrFl = 0;
 	
 public:
 	Semantic() {
+		
 		Tree* T = sin.Program();
 		if (!sin.Correct())
 			sin.PrintSin(T, -1);
@@ -246,8 +246,8 @@ public:
 			D.val = "Error: END ID!!!!!";
 			ErrArr.push_back(D);
 		}
-		for (const auto [line,val] : ErrArr) {
-			out << val<<" line "<< line<< "\n";
+		for (int i = 0; i < ErrArr.size();++i) {
+			out << ErrArr[i].val<<" line "<< ErrArr[i].line<< "\n";
 		}
 		Postfix();
 	}
@@ -280,6 +280,7 @@ public:
 					}
 				}
 				PostfixBr(i + 1, b - 1,c);
+
 				Post.push_back(AllTok[i - 1].line);
 				i = b;
 
